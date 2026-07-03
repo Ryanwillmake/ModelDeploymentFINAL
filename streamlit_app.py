@@ -5,11 +5,9 @@ st.set_page_config(page_title="Credit Score Prediction", layout="centered")
 st.title("Customer Credit Score Prediction")
 st.write("Isi data nasabah di bawah untuk memprediksi kategori credit score (Poor / Standard / Good).")
 
-
 @st.cache_resource
 def load_inferencer():
     return CreditScoreInferencer()
-
 
 inferencer = load_inferencer()
 
@@ -18,35 +16,37 @@ with st.form("credit_form"):
         "January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"
     ])
-
     col1, col2 = st.columns(2)
+
     with col1:
-        age = st.number_input("Age", min_value=0, max_value=100, value=25)
+        age = st.number_input("Age", min_value=0, max_value=100, value=35)
         occupation = st.text_input("Occupation", value="Engineer")
-        annual_income = st.number_input("Annual Income", min_value=0.0, value=8000.0)
-        monthly_salary = st.number_input("Monthly Inhand Salary", min_value=0.0, value=600.0)
-        num_bank_accounts = st.number_input("Num Bank Accounts", min_value=0, value=8)
-        num_credit_card = st.number_input("Num Credit Card", min_value=0, value=9)
-        interest_rate = st.number_input("Interest Rate", min_value=0.0, value=25.0)
-        num_of_loan = st.number_input("Num of Loan", min_value=0.0, value=6.0)
-        delay_from_due_date = st.number_input("Delay from Due Date", min_value=0, value=60)
-        num_delayed_payment = st.number_input("Num of Delayed Payment", min_value=0.0, value=20.0)
+        annual_income = st.number_input("Annual Income", min_value=0.0, value=45000.0)
+        monthly_salary = st.number_input("Monthly Inhand Salary", min_value=0.0, value=3500.0)
+        num_bank_accounts = st.number_input("Num Bank Accounts", min_value=0, value=3)
+        num_credit_card = st.number_input("Num Credit Card", min_value=0, value=4)
+        interest_rate = st.number_input("Interest Rate", min_value=0.0, value=14.0)
+        num_of_loan = st.number_input("Num of Loan", min_value=0.0, value=3.0)
+        delay_from_due_date = st.number_input("Delay from Due Date", min_value=0, value=15)
+        num_delayed_payment = st.number_input("Num of Delayed Payment", min_value=0.0, value=8.0)
+
     with col2:
         changed_credit_limit = st.number_input("Changed Credit Limit", value=5.5)
         num_credit_inquiries = st.number_input("Num Credit Inquiries", min_value=0.0, value=2.0)
-        credit_mix = st.selectbox("Credit Mix", ["Bad", "Good", "Standard"])
-        outstanding_debt = st.number_input("Outstanding Debt", min_value=0.0, value=4500.0)
+        credit_mix = st.selectbox("Credit Mix", ["Standard", "Good", "Bad"])
+        outstanding_debt = st.number_input("Outstanding Debt", min_value=0.0, value=1500.0)
         credit_utilization = st.number_input("Credit Utilization Ratio", min_value=0.0, value=30.5)
-        credit_history_age = st.text_input("Credit History Age", value="1 Years and 2 Months")
-        payment_min_amount = st.selectbox("Payment of Min Amount", ["No", "Yes"])
+        credit_history_age = st.text_input("Credit History Age", value="8 Years and 3 Months")
+        payment_min_amount = st.selectbox("Payment of Min Amount", ["Yes", "No"])
         total_emi = st.number_input("Total EMI per month", min_value=0.0, value=150.0)
         amount_invested = st.number_input("Amount Invested Monthly", min_value=0.0, value=300.0)
         payment_behaviour = st.selectbox("Payment Behaviour", [
-            "High_spent_Large_value_payments", "Low_spent_Small_value_payments",
+            "High_spent_Small_value_payments", "Low_spent_Small_value_payments",
             "High_spent_Medium_value_payments", "Low_spent_Medium_value_payments",
-            "High_spent_Small_value_payments", "Low_spent_Large_value_payments"
+            "High_spent_Large_value_payments", "Low_spent_Large_value_payments"
         ])
-        monthly_balance = st.number_input("Monthly Balance", value=50.0)
+        monthly_balance = st.number_input("Monthly Balance", value=300.0)
+
     submitted = st.form_submit_button("Predict")
 
 if submitted:
@@ -65,6 +65,5 @@ if submitted:
     }
 
     result = inferencer.predict(input_data)
-
     color_map = {"Good": "success", "Standard": "warning", "Poor": "error"}
     getattr(st, color_map[result])(f"Predicted Credit Score: **{result}**")
