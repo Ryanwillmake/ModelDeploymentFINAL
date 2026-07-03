@@ -52,7 +52,6 @@ with st.form("credit_form"):
 
 if submitted:
     input_data = {
-        "Month": month,
         "Age": age, "Occupation": occupation, "Annual_Income": annual_income,
         "Monthly_Inhand_Salary": monthly_salary, "Num_Bank_Accounts": num_bank_accounts,
         "Num_Credit_Card": num_credit_card, "Interest_Rate": interest_rate,
@@ -64,5 +63,8 @@ if submitted:
         "Total_EMI_per_month": total_emi, "Amount_invested_monthly": amount_invested,
         "Payment_Behaviour": payment_behaviour, "Monthly_Balance": monthly_balance
     }
+
     result = inferencer.predict(input_data)
-    st.success(f"Predicted Credit Score: **{result}**")
+
+    color_map = {"Good": "success", "Standard": "warning", "Poor": "error"}
+    getattr(st, color_map[result])(f"Predicted Credit Score: **{result}**")
