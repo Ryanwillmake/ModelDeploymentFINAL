@@ -22,6 +22,7 @@ with st.form("credit_form"):
     col1, col2 = st.columns(2)
     with col1:
         age = st.number_input("Age", min_value=0, max_value=100, value=25)
+        occupation = st.text_input("Occupation", value="Engineer")
         annual_income = st.number_input("Annual Income", min_value=0.0, value=8000.0)
         monthly_salary = st.number_input("Monthly Inhand Salary", min_value=0.0, value=600.0)
         num_bank_accounts = st.number_input("Num Bank Accounts", min_value=0, value=8)
